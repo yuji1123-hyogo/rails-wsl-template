@@ -2,74 +2,82 @@
 
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# ========================
+# Rails 基本
+# ========================
 gem "rails", "~> 8.0.2"
-# The modern asset pipeline for Rails [https://github.com/rails/propshaft]
-gem "propshaft"
-# Use sqlite3 as the database for Active Record
-gem "pg"
-gem "sqlite3", ">= 2.1"
-# Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "pg"                         # PostgreSQL
+gem "sqlite3", ">= 2.1"          # SQLite（開発/テスト用途）
+
+# ========================
+# モダンアセット・JavaScript
+# ========================
+gem "propshaft"                 # モダンアセットパイプライン
+gem "importmap-rails"          # ESMスタイルのJS読み込み
+gem "turbo-rails"              # Hotwire: SPAライクな画面遷移
+gem "stimulus-rails"           # Hotwire: JSフレームワーク
+gem "tailwindcss-rails", "~> 4.3"
+
+# ========================
+# JSON API
+# ========================
 gem "jbuilder"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[windows jruby]
-
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cable"
+# ========================
+# キャッシュ・ジョブ・WebSocket
+# ========================
 gem "solid_cache"
 gem "solid_queue"
+gem "solid_cable"
 
-# Reduces boot times through caching; required in config/boot.rb
+# ========================
+# 本番環境用
+# ========================
+gem "kamal", require: false     # Dockerデプロイ
+gem "thruster", require: false  # HTTP圧縮 & X-Sendfile
+
+# ========================
+# Windows用タイムゾーン
+# ========================
+gem "tzinfo-data", platforms: %i[windows jruby]
+
+# ========================
+# 起動高速化
+# ========================
 gem "bootsnap", require: false
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
-
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem "thruster", require: false
-
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
+# ========================
+# 開発・テスト環境
+# ========================
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
-
+  # 環境変数 & 国際化
   gem "dotenv-rails"
   gem "rails-i18n"
-end
 
-group :development, :test do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
+  # デバッグ & コンソール
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "better_errors"
   gem "binding_of_caller"
-  gem "bullet"
+  gem "pry-rails"
+  gem "pry-byebug"
+  gem "web-console"
+
+  # 開発支援
+  gem "bullet"                  # N+1検出
+  gem "brakeman", require: false # セキュリティ静的解析
+  gem "rubocop"                 # Rubyスタイルチェック
+  gem "rubocop-rails"          # Rails向けルール
+  gem "rubocop-rails-omakase", require: false
+
+  # テスト系
+  gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
-  gem "pry-byebug"
-  gem "pry-rails"
-  gem "rspec-rails"
-  gem "rubocop"
-  gem "rubocop-rails"
-  gem "web-console"
 end
 
-gem "tailwindcss-rails", "~> 4.3"
+# ========================
+# その他のオプション
+# ========================
+# gem "bcrypt", "~> 3.1.7"      # 認証（has_secure_password使用時）
+# gem "image_processing", "~> 1.2"  # ActiveStorageで画像変換を使う場合
