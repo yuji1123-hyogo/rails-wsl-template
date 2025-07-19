@@ -50,10 +50,14 @@ gem "bootsnap", require: false
 # ========================
 # 開発・テスト環境
 # ========================
+
+
+# 環境変数 & 国際化
+gem "dotenv-rails"
+gem "rails-i18n"
+
+
 group :development, :test do
-  # 環境変数 & 国際化
-  gem "dotenv-rails"
-  gem "rails-i18n"
 
   # デバッグ & コンソール
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
